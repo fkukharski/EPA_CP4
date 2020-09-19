@@ -11,9 +11,14 @@ if (!(file.exists(rds_file1) & file.exists(rds_file2))){
 }
 
 NEI <- readRDS(rds_file2)
-NEI_BC <- subset(NEI, fips == 24510)
+NEI_BC <- subset(NEI, fips == "24510")
 
 max_by_year_BC <- with(NEI_BC, tapply(Emissions, year, sum, na.rm = TRUE))
+
+png(filename = "plot2.png", width = 480, height = 480, units = "px")
+
 plot(names(max_by_year_BC), max_by_year_BC, type = "b", 
      main = "Total PM2.5 emission by year in the BC", 
      xlab = "Year", ylab = "Total emission (tons)")
+
+dev.off()

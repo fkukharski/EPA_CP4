@@ -12,17 +12,14 @@ if (!(file.exists(rds_file1) & file.exists(rds_file2))){
 
 NEI <- readRDS(rds_file2)
 SCC <- readRDS(rds_file1)
-SCC_tmp <- subset(SCC, grepl("Combustion", SCC.Level.One) & 
-                  (grepl("Coal", SCC.Level.Three) | grepl("Coal", SCC.Level.Four)), 
-                  select = SCC)
-NEI_tmp <- subset(NEI, SCC %in% SCC_tmp$SCC)
 
-max_by_year <- with(NEI_tmp, tapply(Emissions, year, sum, na.rm = TRUE))
+NEI_BC <- subset(NEI, fips == "24510" & NEI$type == "ON-ROAD")
+plot_BC <- with(NEI_BC, tapply(Emissions, year, sum, na.rm = TRUE))
 
-png(filename = "plot4.png", width = 480, height = 480, units = "px")
+png(filename = "plot5.png", width = 510, height = 480, units = "px")
 
-plot(names(max_by_year), max_by_year, type = "b", 
-     main = "Emissions from coal combustion-related sources", 
+plot(names(plot_BC), plot_BC, type = "b", 
+     main = "Total PM2.5 emission from motor vehicle sources by year in the BC", 
      xlab = "Year", ylab = "Total emission (tons)")
 
 dev.off()

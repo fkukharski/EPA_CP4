@@ -13,6 +13,11 @@ if (!(file.exists(rds_file1) & file.exists(rds_file2))){
 NEI <- readRDS(rds_file2)
 
 max_by_year <- with(NEI, tapply(Emissions, year, sum, na.rm = TRUE))
+
+png(filename = "plot1.png", width = 480, height = 480, units = "px")
+
 plot(names(max_by_year), max_by_year, type = "b", 
      main = "Total PM2.5 emission by year", 
      xlab = "Year", ylab = "Total emission (tons)")
+
+dev.off()
